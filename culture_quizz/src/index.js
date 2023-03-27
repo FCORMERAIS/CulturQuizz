@@ -8,6 +8,22 @@ import Quizz from "./scenes/quizz/quizz"
 // import Contact from "./pages/Contact";
 import NoPage from "scenes/NoPage";
 
+
+const { MongoClient } = require('mongodb');
+
+const url = 'mongodb://localhost:27017';
+
+const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+
+client.connect(err => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+
+  // Code à exécuter une fois connecté à MongoDB
+});
+
 export default function App() {
   return (
     <BrowserRouter>
