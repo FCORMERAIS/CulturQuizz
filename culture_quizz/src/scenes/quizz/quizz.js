@@ -10,6 +10,7 @@ function App() {
   const questions = [
     {
       text: "Quel odeur émane de Marius !",
+      type : "Question4choices",
       options: [
         { id: 0, text: "Les fleurs j'adore ! <3", isCorrect: false },
         { id: 1, text: "Les bonbons... J'ai envie de le croquer ", isCorrect: false },
@@ -19,6 +20,7 @@ function App() {
     },
     {
       text: "Question 2",
+      type : "Question4choices",
       options: [
         { id: 0, text: "Les fleurs j'adore ! <3", isCorrect: false },
         { id: 1, text: "Les bonbons... J'ai envie de le croquer ", isCorrect: false },
@@ -28,6 +30,16 @@ function App() {
     },
     {
       text: "Question 3",
+      type : "Question3choices",
+      options: [
+        { id: 0, text: "Les fleurs j'adore ! <3", isCorrect: false },
+        { id: 1, text: "Les bonbons... J'ai envie de le croquer ", isCorrect: false },
+        { id: 3, text: "Les poubelles ! C'est bon frère vas prendre une douche XoX", isCorrect: true },
+      ],
+    },
+    {
+      text: "Question 4 ",
+      type : "Question4choices",
       options: [
         { id: 0, text: "Les fleurs j'adore ! <3", isCorrect: false },
         { id: 1, text: "Les bonbons... J'ai envie de le croquer ", isCorrect: false },
@@ -36,14 +48,17 @@ function App() {
       ],
     },
     {
-      text: "Question 4 ",
+      text : "Marius est t'il beau ? ",
+      type : "TrueFalse",
       options: [
-        { id: 0, text: "Les fleurs j'adore ! <3", isCorrect: false },
-        { id: 1, text: "Les bonbons... J'ai envie de le croquer ", isCorrect: false },
-        { id: 2, text: "Le Parfum. Quel homme chic ! ", isCorrect: false },
-        { id: 3, text: "Les poubelles ! C'est bon frère vas prendre une douche XoX", isCorrect: true },
+        { id: 0, text: "true", isCorrect: false },
+        { id: 1, text: "false", isCorrect: true },
       ],
     },
+    {
+      text : "cite 2 qualités de Marius",
+      type : "Text",
+    }
   ];
 
   // Helper Functions
@@ -54,20 +69,60 @@ function App() {
     if (isCorrect) {
       setScore(score + 1);
     }
+    setCurrentQuestion(Math.floor(Math.random() * questions.length));
 
-    if (currentQuestion + 1 < questions.length) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
-      setShowResults(true);
-    }
   };
-
   /* Resets the game back to default */
   const restartGame = () => {
     setScore(0);
     setCurrentQuestion(0);
     setShowResults(false);
   };
+
+  function DisplayObjectsByType({ data }) {
+    if (data.type === "Question4choices") {
+      return (<div key={data.id}>Type 1 object: {data.text}
+            <ul>
+            {data.options.map((option) => {
+              return (
+                <li
+                  key={option.id}
+                  onClick={() => optionClicked(option.isCorrect)}
+                >
+                  {option.text}
+                </li>
+              );
+            })}
+          </ul>
+          </div>);
+    }
+    if (data.type === "Question3choices") {
+      return (<div key={data.id}>Type 2 object: {data.text}<ul>
+      {data.options.map((option) => {
+        return (
+          <li
+            key={option.id}
+            onClick={() => optionClicked(option.isCorrect)}
+          >
+            {option.text}
+          </li>
+        );
+      })}
+    </ul>
+    </div>);
+    }
+    if (data.type === "TrueFalse") {
+      return(<div><button onClick={() => optionClicked(data.options[0].isCorrect)} class="button">Vrai !</button>
+      <button onClick={() => optionClicked(data.options [1].isCorrect)} class="button">Faux !</button>
+      </div>);
+    }
+    if (data.type === "Text") {
+      return (<div class="form__group field">
+      <input type="input" class="form__field" placeholder="Name" name="name" id='name' required />
+      <input type="submit" onClick={() => optionClicked(true)}/>
+    </div>);
+    }
+  }
 
   return (
     <div className="App">
@@ -95,21 +150,10 @@ function App() {
           <h2>
             Question: {currentQuestion + 1} out of {questions.length}
           </h2>
-          <h3 className="question-text">{questions[currentQuestion].text}</h3>
-
+          <div>
+            <DisplayObjectsByType data={questions[currentQuestion]} />
+          </div>
           {/* List of possible answers  */}
-          <ul>
-            {questions[currentQuestion].options.map((option) => {
-              return (
-                <li
-                  key={option.id}
-                  onClick={() => optionClicked(option.isCorrect)}
-                >
-                  {option.text}
-                </li>
-              );
-            })}
-          </ul>
         </div>
       )}
     </div>
