@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "scenes/Layout";
 import Home from "./Home";
 import Login from "scenes/Login";
+import Signin from "scenes/Signin";
 // import Blogs from "./pages/Blogs";
 // import Contact from "./pages/Contact";
 import NoPage from "scenes/NoPage";
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signin" element={<Signin />} />
           {/* <Route path="blogs" element={<Blogs />} /> */}
           {/* <Route path="contact" element={<Contact />} /> */}
           <Route path="*" element={<NoPage />} />
