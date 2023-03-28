@@ -13,17 +13,15 @@ async function connect() {
     }
 }
 
-
 // Insérer un document dans la collection
-function addUser(username, emailuser,passworduser) {
+async function addUser(username, emailuser,passworduser) {
     const newUser = new User({ name: username, email: emailuser, password: passworduser });
-    newUser.save((err, savedUser) => {
-        if (err) {
-        console.error(err);
-        } else {
-        console.log('User saved:', savedUser);
-        }
-    });
+    try {
+        const result = await newUser.save();
+        console.log('Save successful:', result);
+      } catch (error) {
+        console.error('Save error:', error);
+      }
 }
 
 
@@ -60,7 +58,7 @@ const User = mongoose.model('User', userSchema);
 const Question = mongoose.model('Question', questionSchema);
 const Room = mongoose.model('Room', roomSchema);
 
-
+addUser("Flavio","flaviocormerais@gmail.com","123456")
 
 app.listen(8000, () => {
     console.log("server started on port 8000");
