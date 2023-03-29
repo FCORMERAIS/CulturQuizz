@@ -3,9 +3,8 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "scenes/Layout";
 import Home from "./Home";
-import Quizz from "./scenes/quizz/quizz"
-// import Blogs from "./pages/Blogs";
-// import Contact from "./pages/Contact";
+import Quizz from "./scenes/quizz/quizz";
+import Question from "./scenes/questionAdd/question";
 import NoPage from "scenes/NoPage";
 
 
@@ -15,8 +14,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="Quizz" element={<Quizz />} />
-          {/* <Route path="contact" element={<Contact />} /> */}
+          <Route path="Quizz" element={<Quizz/>} />
+          <Route path="Question" element={<Question/>} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>
