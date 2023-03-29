@@ -97,3 +97,7 @@ h2{
     color: #fff;
     padding-bottom: 5%;
 }
+.incorrectPassword{
+    color: red;
+    font-size: 16px;
+}

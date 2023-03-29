@@ -1,3 +1,4 @@
+import '../style/Layout.css'
 import { Outlet, Link } from "react-router-dom";
 
 const Layout = () => {
@@ -5,21 +6,35 @@ const Layout = () => {
     <>
       <nav>
         <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/blogs">Blogs</Link>
-          </li>
-          <li>
-            <Link to="/contact">Contact</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/signin">Signin</Link>
-          </li>
+          <div id='left'>
+            <li>
+              <a>
+                <Link to="/">Home</Link>
+              </a>
+            </li>
+            <li>
+              <a>
+                <Link to="/blogs">Blogs</Link>
+              </a>
+            </li>
+            <li>
+              <a>
+                <Link to="/contact">Contact</Link>
+              </a>
+            </li>
+          </div>
+          <div id='right'>
+            <li>
+              <a>
+                <Link to="/login">Login</Link>
+              </a>
+            </li>
+            <li>
+              <a>
+                <Link to="/signin">Signin</Link>
+              </a>
+            </li>
+          </div>
         </ul>
       </nav>
 
