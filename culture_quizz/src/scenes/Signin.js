@@ -22,9 +22,28 @@ const Signin = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(name, email, password); 
+        // addUser(name, email, password)
         // console.log(hashpassword());
     }
 
+    // async function addUser(username, emailuser,passworduser) {
+    //     const newUser = new User({ name: username, email: emailuser, password: passworduser });
+    //     try {
+    //         const result = await newUser.save();
+    //         console.log('Save successful:', result);
+    //       } catch (error) {
+    //         console.error('Save error:', error);
+    //       }
+    // }
+    // const userSchema = new mongoose.Schema({
+    //     name: { type: String, required: true },
+    //     email: { type: String, required: true, unique: true },
+    //     password: { type: String, required: true },
+    // });
+    
+
+    // const User = mongoose.model('User', userSchema);
+    
     return(
         <div id='signin'>
             <div id='card'>
