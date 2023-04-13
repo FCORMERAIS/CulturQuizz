@@ -9,6 +9,9 @@ function App() {
       <p className="Textpresentation">
         Bienvenue sur Culture Quizz, le site qui vous permet de tester vos connaissances sur la culture générale.
       </p>
+      <h1>
+        Liste des catégories
+      </h1>
       <div className="Theme">
         <div className="Option">
           <button type="submit">Option 1</button>
