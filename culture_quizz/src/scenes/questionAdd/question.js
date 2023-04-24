@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 
 class App extends React.Component {
 
@@ -18,21 +19,64 @@ class App extends React.Component {
         }
         this.handleChange = this.handleChange.bind(this)
     }
-
+    
     handleChange (e) {
         const name = e.target.name
         const type = e.target.type
-        const value = type === 'checkbox' ? e.target.checked : e.target.value
         if( type === "select-one" ){
             this.type = e.target.value
-            this.bonneRep1 = false;
-            this.bonneRep2 = false;
-            this.bonneRep3 = false;
-            this.bonneRep4 = false;
+            this.state.bonneRep1 = false;
+            this.state.bonneRep2 = false;
+            this.state.bonneRep3 = false;
+            this.state.bonneRep4 = false;
         }
+        if (type === 'checkbox') {
+            this.state.bonneRep1 = false;
+            this.state.bonneRep2 = false;
+            this.state.bonneRep3 = false;
+            this.state.bonneRep4 = false;
+        }
+        const value = type === 'checkbox' ? e.target.checked : e.target.value
         this.setState({
             [name] : value,
         })
+    }
+
+    async connect() {
+        try {
+            await this.mongoose.connect(this.uri);
+            console.log("conect to MongoDB");
+        }catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    AddQuestion() {
+        const optionsChoices= [];
+        if (this.state.type === "Question4choices") {
+            const optionsChoices= [
+                { id: 0, text: this.state.reponse1, isCorrect: this.state.bonneRep1 },
+                { id: 1, text: this.state.reponse1, isCorrect: this.state.bonneRep2 },
+                { id: 2, text: this.state.reponse1, isCorrect: this.state.bonneRep3 },
+                { id: 3, text: this.state.reponse1, isCorrect: this.state.bonneRep4 },
+              ]
+            }
+        else if (this.state.type === "Question3choices") {
+            const optionsChoices= [
+                { id: 0, text: this.state.reponse1, isCorrect: this.state.bonneRep1 },
+                { id: 1, text: this.state.reponse1, isCorrect: this.state.bonneRep2 },
+                { id: 2, text: this.state.reponse1, isCorrect: this.state.bonneRep3 },
+              ]
+        }else if (this.state.type === "TrueFalse") {
+            const optionsChoices= [
+                { id: 0, text: "Vrai", isCorrect: this.state.bonneRep1 },
+                { id: 1, text: "Faux", isCorrect: this.state.bonneRep2 },
+              ]
+        }
+        // const Question = this.mongoose.model("Question", questionSchema);
+        const newQuestion = {type: this.state.type, question: this.state.question, options: optionsChoices };
+        return newQuestion
     }
 
     DisplayAnswerByType() {
@@ -110,6 +154,7 @@ class App extends React.Component {
                 <label htmlFor="question">Question</label>
                 <input type="text" value={this.state.question} onChange={this.handleChange} id="question" name="question"/>
             </div>
+            <form name="QuestionAdd" mathod="post" className="question_form" data-netlify="true">
             <div>
             <label htmlFor="type">Type : </label>
                 <select onChange={this.handleChange}>
@@ -119,9 +164,10 @@ class App extends React.Component {
                     <option value="Text">Text</option>
                 </select>
             </div>
-            {this.DisplayAnswerByType()}
+                {this.DisplayAnswerByType()}
 
-            <input type="submit"/>
+                <button type="submit" onClick={this.AddQuestion()}> Envoyez </button>
+            </form>
         </div>
         )
     }

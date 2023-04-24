@@ -59,8 +59,9 @@ const Question = mongoose.model('Question', questionSchema);
 const Room = mongoose.model('Room', roomSchema);
 
 addUser("Flavio","flaviocormerais@gmail.com","123456")
-
 app.listen(8000, () => {
     console.log("server started on port 8000");
 
 });
+
+ex
