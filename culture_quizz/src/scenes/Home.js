@@ -31,24 +31,30 @@ function App() {
   const [codeRoom, setCodeRoom ] = useState("");
   const [inRoom, setInRoom ] = useState(false);
   const [name, setName] = useState("");
+  const [players, setPlayers] = useState([]);
 
   // Messages States
   const [message, setMessage] = useState("");
   const [messageReceived, setMessageReceived] = useState("");
 
   const joinRoom = () => {
-    if (codeRoom !== "") {
+    if (codeRoom !== "" && name!== "") {
       socket.emit("join_room",{"codeRoom" :codeRoom,"name":name});
       socket.on("receive_message", (data) => {
-        setMessageReceived(data);
+        setMessageReceived(data.status);
+        setPlayers(data.players)
       });
+      console.log(messageReceived)
       if (messageReceived === "no room"){
         console.log("Aucune room existante avec ce code")
+        setInRoom(false);
       }else{
         console.log("Join room");
         setInRoom(true);
-
+        listenServer();
       }
+    }else{
+      alert("Vous devez renseigner un pseudo et un code de party spour jouer !");
     }
   };
 
@@ -57,14 +63,23 @@ function App() {
   };
 
   const listenServer = () => {
-
+    socket.on("receive_message", (data) => {
+      if (data.status === "new player"){
+        setPlayers(data.players)
+      }
+    });
   }
 
   const createRoom = () => {
-    setCodeRoom(uuid());
-    setInRoom(true);
-    socket.emit("create_room", {"codeRoom" :codeRoom,"name":name});
-    console.log("Create Room with code :" + codeRoom);
+    if (name!==""){
+      setCodeRoom(uuid());
+      setInRoom(true);
+      socket.emit("create_room", {"codeRoom" :codeRoom,"name":name});
+      console.log("Create Room with code :" + codeRoom);
+      listenServer();
+    }else{
+      alert("Vous devez renseigner un pseudo pour jouer !");
+    }
   }
 
   useEffect(() => {
@@ -90,7 +105,7 @@ function App() {
       <button onClick={joinRoom}> Join Room</button>
       <button onClick={createRoom}> Create Room</button>
 
-      <Greeting inRoom={inRoom} codeRoom={codeRoom} player={["a","b"]}></Greeting>
+      <Greeting inRoom={inRoom} codeRoom={codeRoom} player={players}></Greeting>
     </div>
   );
 }
