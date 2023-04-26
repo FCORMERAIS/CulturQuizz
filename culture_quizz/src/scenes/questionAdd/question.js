@@ -2,10 +2,9 @@ import React from "react";
 import axios from 'axios';
 
 class App extends React.Component {
-
-    constructor (props) {
-        super(props)
-        this.state = {
+    constructor(props){
+        super(props) 
+        this.state={
             question : "",
             type : "",
             bonneRep1:false,
@@ -17,14 +16,17 @@ class App extends React.Component {
             bonneRep4:false,
             reponse4 : ""
         }
+        this.AddQuestion = this.AddQuestion.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
-    
+
+
+
     handleChange (e) {
         const name = e.target.name
         const type = e.target.type
-        if( type === "select-one" ){
-            this.type = e.target.value
+        if(type === "select-one" ){
+            this.state.type = e.target.value
             this.state.bonneRep1 = false;
             this.state.bonneRep2 = false;
             this.state.bonneRep3 = false;
@@ -42,20 +44,10 @@ class App extends React.Component {
         })
     }
 
-    async connect() {
-        try {
-            await this.mongoose.connect(this.uri);
-            console.log("conect to MongoDB");
-        }catch (error) {
-            console.log(error);
-        }
-    }
-
-
-    AddQuestion() {
-        const optionsChoices= [];
-        if (this.state.type === "Question4choices") {
-            const optionsChoices= [
+    AddQuestion(e) {
+        let optionsChoices= [];
+        if (this.state.type === "Question4choices" || this.state.type==="") {
+            optionsChoices= [
                 { id: 0, text: this.state.reponse1, isCorrect: this.state.bonneRep1 },
                 { id: 1, text: this.state.reponse1, isCorrect: this.state.bonneRep2 },
                 { id: 2, text: this.state.reponse1, isCorrect: this.state.bonneRep3 },
@@ -63,24 +55,29 @@ class App extends React.Component {
               ]
             }
         else if (this.state.type === "Question3choices") {
-            const optionsChoices= [
+            optionsChoices= [
                 { id: 0, text: this.state.reponse1, isCorrect: this.state.bonneRep1 },
                 { id: 1, text: this.state.reponse1, isCorrect: this.state.bonneRep2 },
                 { id: 2, text: this.state.reponse1, isCorrect: this.state.bonneRep3 },
               ]
         }else if (this.state.type === "TrueFalse") {
-            const optionsChoices= [
+            optionsChoices= [
                 { id: 0, text: "Vrai", isCorrect: this.state.bonneRep1 },
                 { id: 1, text: "Faux", isCorrect: this.state.bonneRep2 },
               ]
         }
-        // const Question = this.mongoose.model("Question", questionSchema);
-        const newQuestion = {type: this.state.type, question: this.state.question, options: optionsChoices };
-        return newQuestion
+        // const Question = mongoose.model("Question", questionSchema);
+        let newQuestion = {}
+        if (this.state.type == "") {
+            newQuestion = {type: "Question4choices", question: this.state.question, options: optionsChoices };
+        }else {
+            newQuestion = {type: this.state.type, question: this.state.question, options: optionsChoices };
+        }
+        console.log(newQuestion)
     }
 
     DisplayAnswerByType() {
-        if (this.type === "Question3choices") {return (
+        if (this.state.type === "Question3choices") {return (
         <div>
             <br/>
             <div>
@@ -103,7 +100,7 @@ class App extends React.Component {
             <br/>
         </div>)
         }
-        if (this.type === "TrueFalse") {
+        if (this.state.type === "TrueFalse") {
         return(<div>
             <p>vrai</p>
             <input type="checkbox" checked = {this.state.bonneRep1} onChange={this.handleChange} id="bonneRep1" name="bonneRep1"/>
@@ -111,7 +108,7 @@ class App extends React.Component {
             <input type="checkbox" checked = {this.state.bonneRep2} onChange={this.handleChange} id="bonneRep2" name="bonneRep2"/>
             </div>);
         }
-        if (this.type === "Text") {
+        if (this.state.type === "Text") {
         return (<div>
             <br/>
             <label htmlFor="reponse1">Reponse : </label>
@@ -166,12 +163,11 @@ class App extends React.Component {
             </div>
                 {this.DisplayAnswerByType()}
 
-                <button type="submit" onClick={this.AddQuestion()}> Envoyez </button>
+                <button type="submit" onClick={this.AddQuestion}> Envoyez </button>
             </form>
         </div>
         )
     }
 }
-
 
 export default App;
