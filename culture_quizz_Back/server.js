@@ -44,6 +44,11 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send_message", (data) => {
+    if(data.status == "StartGame"){
+      socket.to(data.room).emit("receive_message", data);
+      //TODO démarrer le jeux
+      
+    }
     socket.to(data.room).emit("receive_message", data);
   });
   socket.on("create_room", (data) => {
@@ -53,6 +58,9 @@ io.on("connection", (socket) => {
 
     console.log("create room with code :" + data.codeRoom);
   });
+  socket.on("Start_Game",(data)=>{
+    socket.to(data).emit("Start_Game",{})
+  })
 });
 
 server.listen(3001, () => {

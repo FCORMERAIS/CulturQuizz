@@ -5,44 +5,56 @@ import uuid from 'react-uuid';
 
 const socket = io.connect("http://localhost:3001");
 
-function RoomGreeting(props) {
-  return <div>
-    <h1>Creating room !</h1>
-    <p> Code de la party : {props.codeRoom}</p>
-    <ol>
-    {props.player?.map((user) => (
-        <li className="user">{user}</li>
-      ))}
-    </ol>
-  </div>;
-}
-function UserGreeting(props) {
-  return <h1>Bienvenue !</h1>;
-}
-function Greeting(props) {
-  const inRoom = props.inRoom;
-  if (inRoom) {
-    return <RoomGreeting codeRoom={props.codeRoom} player={props.player} />;
-  }
-  return <UserGreeting />;
-}
 function App() {
   //Room State
   const [codeRoom, setCodeRoom ] = useState("");
   const [inRoom, setInRoom ] = useState(false);
   const [name, setName] = useState("");
   const [players, setPlayers] = useState([]);
+  const [isCreator, setIsCreator ] = useState(false);
 
   // Messages States
   const [message, setMessage] = useState("");
   const [messageReceived, setMessageReceived] = useState("");
+
+  const RoomGreeting = (props) => {
+    return <div>
+    <h1>Creating room !</h1>
+    <p> Code de la party : {props.codeRoom}</p>
+    <button onClick={StartGame}>Lancer La partie</button>
+
+    <ol>
+    {props.player?.map((user) => (
+        <li className="user">{user}</li>
+      ))}
+    </ol>
+  </div>;
+  }
+  const UserGreeting = (props) => {
+    return <h1>Bienvenue !</h1>;
+  }
+  const Greeting = (props) => {
+  const inRoom = props.inRoom;
+  if (inRoom) {
+    return <RoomGreeting codeRoom={props.codeRoom} player={props.player} />;
+  }
+  return <UserGreeting />;
+  }
+  
+  const StartGame =() =>{
+    console.log("partie lancé");
+    socket.emit("send_message",{status:"StartGame",room:codeRoom});
+  }
 
   const joinRoom = () => {
     if (codeRoom !== "" && name!== "") {
       socket.emit("join_room",{"codeRoom" :codeRoom,"name":name});
       socket.on("receive_message", (data) => {
         setMessageReceived(data.status);
-        setPlayers(data.players)
+        console.log(data.status+ "data");
+        console.log(messageReceived+ "message");
+        
+        setPlayers(data.players);
       });
       console.log(messageReceived)
       if (messageReceived === "no room"){
@@ -52,9 +64,10 @@ function App() {
         console.log("Join room");
         setInRoom(true);
         listenServer();
+        setIsCreator(false);
       }
     }else{
-      alert("Vous devez renseigner un pseudo et un code de party spour jouer !");
+      alert("Vous devez renseigner un pseudo et un code de partie spour jouer !");
     }
   };
 
@@ -71,11 +84,15 @@ function App() {
   }
 
   const createRoom = () => {
+
     if (name!==""){
-      setCodeRoom(uuid());
+      let uuidCode = uuid()
+      setCodeRoom(uuidCode);
       setInRoom(true);
-      socket.emit("create_room", {"codeRoom" :codeRoom,"name":name});
-      console.log("Create Room with code :" + codeRoom);
+      setIsCreator(true);
+      console.log(inRoom);
+      socket.emit("create_room", {"codeRoom" :uuidCode,"name":name});
+      console.log("Create Room with code :" + uuidCode);
       listenServer();
     }else{
       alert("Vous devez renseigner un pseudo pour jouer !");
