@@ -25,7 +25,6 @@ router.post('/', async (req, res) => {
     options : req.body.options,
   })
   try {
-    console.log(res.body)
     const newQuestion = await question.save()
     res.status(201).json(newQuestion)
   } catch (err) {

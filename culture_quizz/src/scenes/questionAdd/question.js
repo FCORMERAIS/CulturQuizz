@@ -78,7 +78,6 @@ class App extends React.Component {
             console.log("Connected");
         };
         xhr.send(JSON.stringify(newQuestion));
-        console.log(JSON.stringify(newQuestion))
     }
 
     DisplayAnswerByType() {
