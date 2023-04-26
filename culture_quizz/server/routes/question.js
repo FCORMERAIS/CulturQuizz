@@ -20,8 +20,9 @@ router.get('/:id', getQuestion, (req, res) => {
 // Creating one
 router.post('/', async (req, res) => {
   const question = new Question({
-    name: req.body.name,
-    type: req.body.type
+    question : req.body.question,
+    type : req.body.type,
+    options : req.body.options,
   })
   try {
     const newQuestion = await question.save()

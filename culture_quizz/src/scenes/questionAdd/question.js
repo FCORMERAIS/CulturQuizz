@@ -1,5 +1,4 @@
 import React from "react";
-import axios from 'axios';
 
 class App extends React.Component {
     constructor(props){
@@ -49,16 +48,16 @@ class App extends React.Component {
         if (this.state.type === "Question4choices" || this.state.type==="") {
             optionsChoices= [
                 { id: 0, text: this.state.reponse1, isCorrect: this.state.bonneRep1 },
-                { id: 1, text: this.state.reponse1, isCorrect: this.state.bonneRep2 },
-                { id: 2, text: this.state.reponse1, isCorrect: this.state.bonneRep3 },
-                { id: 3, text: this.state.reponse1, isCorrect: this.state.bonneRep4 },
+                { id: 1, text: this.state.reponse2, isCorrect: this.state.bonneRep2 },
+                { id: 2, text: this.state.reponse3, isCorrect: this.state.bonneRep3 },
+                { id: 3, text: this.state.reponse4, isCorrect: this.state.bonneRep4 },
               ]
             }
         else if (this.state.type === "Question3choices") {
             optionsChoices= [
                 { id: 0, text: this.state.reponse1, isCorrect: this.state.bonneRep1 },
-                { id: 1, text: this.state.reponse1, isCorrect: this.state.bonneRep2 },
-                { id: 2, text: this.state.reponse1, isCorrect: this.state.bonneRep3 },
+                { id: 1, text: this.state.reponse2, isCorrect: this.state.bonneRep2 },
+                { id: 2, text: this.state.reponse3, isCorrect: this.state.bonneRep3 },
               ]
         }else if (this.state.type === "TrueFalse") {
             optionsChoices= [
@@ -66,14 +65,19 @@ class App extends React.Component {
                 { id: 1, text: "Faux", isCorrect: this.state.bonneRep2 },
               ]
         }
-        // const Question = mongoose.model("Question", questionSchema);
         let newQuestion = {}
-        if (this.state.type == "") {
+        if (this.state.type === "") {
             newQuestion = {type: "Question4choices", question: this.state.question, options: optionsChoices };
         }else {
             newQuestion = {type: this.state.type, question: this.state.question, options: optionsChoices };
         }
-        console.log(newQuestion)
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST","http://localhost:3000/questions",true);
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.onload = function () {
+            console.log("Connected");
+        };
+        xhr.send(JSON.stringify(newQuestion));
     }
 
     DisplayAnswerByType() {

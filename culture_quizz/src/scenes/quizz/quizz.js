@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect  } from "react";
 import "./quizz.css";
 
 function App() {
@@ -6,62 +6,8 @@ function App() {
   const [showResults, setShowResults] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
-
-  const questions = [
-    {
-      text: "Quel odeur émane de Marius !",
-      type : "Question4choices",
-      options: [
-        { id: 0, text: "Les fleurs j'adore ! <3", isCorrect: false },
-        { id: 1, text: "Les bonbons... J'ai envie de le croquer ", isCorrect: false },
-        { id: 2, text: "Le Parfum. Quel homme chic ! ", isCorrect: false },
-        { id: 3, text: "Les poubelles ! C'est bon frère vas prendre une douche XoX", isCorrect: true },
-      ],
-    },
-    {
-      text: "Question 2",
-      type : "Question4choices",
-      options: [
-        { id: 0, text: "Les fleurs j'adore ! <3", isCorrect: false },
-        { id: 1, text: "Les bonbons... J'ai envie de le croquer ", isCorrect: false },
-        { id: 2, text: "Le Parfum. Quel homme chic ! ", isCorrect: false },
-        { id: 3, text: "Les poubelles ! C'est bon frère vas prendre une douche XoX", isCorrect: true },
-      ],
-    },
-    {
-      text: "Question 3",
-      type : "Question3choices",
-      options: [
-        { id: 0, text: "Les fleurs j'adore ! <3", isCorrect: false },
-        { id: 1, text: "Les bonbons... J'ai envie de le croquer ", isCorrect: false },
-        { id: 3, text: "Les poubelles ! C'est bon frère vas prendre une douche XoX", isCorrect: true },
-      ],
-    },
-    {
-      text: "Question 4 ",
-      type : "Question4choices",
-      options: [
-        { id: 0, text: "Les fleurs j'adore ! <3", isCorrect: false },
-        { id: 1, text: "Les bonbons... J'ai envie de le croquer ", isCorrect: false },
-        { id: 2, text: "Le Parfum. Quel homme chic ! ", isCorrect: false },
-        { id: 3, text: "Les poubelles ! C'est bon frère vas prendre une douche XoX", isCorrect: true },
-      ],
-    },
-    {
-      text : "Marius est t'il beau ? ",
-      type : "TrueFalse",
-      options: [
-        { id: 0, text: "true", isCorrect: false },
-        { id: 1, text: "false", isCorrect: true },
-      ],
-    },
-    {
-      text : "cite 2 qualités de Marius",
-      type : "Text",
-    }
-  ];
-
-  // Helper Functions
+  const [questions, setQuestions] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   /* A possible answer was clicked */
   const optionClicked = (isCorrect) => {
@@ -79,6 +25,22 @@ function App() {
     setShowResults(false);
   };
 
+useEffect(() => {
+  // Fetch data from URL using promise
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/questions');
+      const data = await response.json();
+      setQuestions(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  fetchData();
+}, []);
+
+  console.log(questions)
   function DisplayObjectsByType({ data }) {
     if (data.type === "Question4choices") {
       return (<div key={data.id}>Type 1 object: {data.text}
@@ -126,15 +88,12 @@ function App() {
 
   return (
     <div className="App">
-      {/* 1. Header  */}
       <h1>Question Culture Général</h1>
 
-      {/* 2. Current Score  */}
       <h2>Score: {score}</h2>
-
-      {/* 3. Show results or show the question game  */}
-      {showResults ? (
-        /* 4. Final Results */
+      {isLoading ? (
+        <p>Loading...</p>
+      ):(showResults ? (
         <div className="final-results">
           <h1>Final Results</h1>
           <h2>
@@ -144,9 +103,7 @@ function App() {
           <button onClick={() => restartGame()}>Restart game</button>
         </div>
       ) : (
-        /* 5. Question Card  */
         <div className="question-card">
-          {/* Current Question  */}
           <h2>
             Question: {currentQuestion + 1} out of {questions.length}
           </h2>
@@ -155,7 +112,7 @@ function App() {
           </div>
           {/* List of possible answers  */}
         </div>
-      )}
+      ))}
     </div>
   );
 }
