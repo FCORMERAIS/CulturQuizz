@@ -20,10 +20,12 @@ router.get('/:id', getQuestion, (req, res) => {
 // Creating one
 router.post('/', async (req, res) => {
   const question = new Question({
-    name: req.body.name,
-    type: req.body.type
+    question : req.body.question,
+    type : req.body.type,
+    options : req.body.options,
   })
   try {
+    console.log(res.body)
     const newQuestion = await question.save()
     res.status(201).json(newQuestion)
   } catch (err) {
