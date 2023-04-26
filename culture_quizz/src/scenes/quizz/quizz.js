@@ -8,20 +8,30 @@ function App() {
   const [score, setScore] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [questionPass,setQuestionPass] = useState([]);
   /* A possible answer was clicked */
   const optionClicked = (isCorrect) => {
+    console.log(currentQuestion)
     // Increment the score
     if (isCorrect) {
       setScore(score + 1);
     }
-    setCurrentQuestion(Math.floor(Math.random() * questions.length));
-
+    let tempo = questionPass
+    tempo.push(currentQuestion)
+    setQuestionPass(tempo)
+    if (questionPass.length === questions.length-1) {
+      setQuestionPass([])
+    }
+    let aleatory = -1
+    while (aleatory === -1 || questionPass.indexOf(aleatory) !== -1) {
+      aleatory = Math.floor(Math.random() * questions.length)
+    }
+    setCurrentQuestion(aleatory);
   };
   /* Resets the game back to default */
   const restartGame = () => {
     setScore(0);
-    setCurrentQuestion(0);
+    setCurrentQuestion(Math.random() * questions.length);
     setShowResults(false);
   };
 
@@ -33,6 +43,7 @@ useEffect(() => {
       const data = await response.json();
       setQuestions(data);
       setIsLoading(false);
+      setCurrentQuestion(Math.random() * questions.length)
     } catch (error) {
       console.error(error);
     }
@@ -40,7 +51,6 @@ useEffect(() => {
   fetchData();
 }, []);
 
-  console.log(questions)
   function DisplayObjectsByType({ data }) {
     if (data.type === "Question4choices") {
       return (<div key={data.id}>Type 1 object: {data.text}
