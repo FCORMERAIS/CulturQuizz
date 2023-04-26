@@ -3,11 +3,10 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "scenes/Layout";
 import Home from "./Home";
-import Login from "scenes/Login";
-import Signin from "scenes/Signin";
-// import Blogs from "./pages/Blogs";
-// import Contact from "./pages/Contact";
+import Quizz from "./scenes/quizz/quizz";
+import Question from "./scenes/questionAdd/question";
 import NoPage from "scenes/NoPage";
+
 
 export default function App() {
   return (
@@ -19,6 +18,8 @@ export default function App() {
           <Route path="/signin" element={<Signin />} />
           {/* <Route path="blogs" element={<Blogs />} /> */}
           {/* <Route path="contact" element={<Contact />} /> */}
+          <Route path="Quizz" element={<Quizz/>} />
+          <Route path="Question" element={<Question/>} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

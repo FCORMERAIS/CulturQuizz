@@ -25,6 +25,15 @@ const Layout = () => {
               </a>
             </li>
           </div>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/quizz">Quizz</Link>
+          </li>
+          <li>
+            <Link to="/question">Question</Link>
+          </li>
         </ul>
       </nav>
 
