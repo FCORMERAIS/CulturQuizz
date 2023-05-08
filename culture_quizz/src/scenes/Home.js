@@ -3,7 +3,7 @@ import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import uuid from 'react-uuid';
 
-const socket = io.connect("http://localhost:3001");
+const socket = io.connect("http://localhost:3002");
 
 function App() {
   //Room State
@@ -51,8 +51,8 @@ function App() {
       socket.emit("join_room",{"codeRoom" :codeRoom,"name":name});
       socket.on("receive_message", (data) => {
         setMessageReceived(data.status);
-        console.log(data.status+ "data");
-        console.log(messageReceived+ "message");
+        console.log(data.status+ " : data");
+        console.log(messageReceived+ " : message");
         
         setPlayers(data.players);
       });
@@ -84,7 +84,6 @@ function App() {
   }
 
   const createRoom = () => {
-
     if (name!==""){
       let uuidCode = uuid()
       setCodeRoom(uuidCode);
