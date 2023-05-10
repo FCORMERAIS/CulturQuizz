@@ -6,8 +6,16 @@ const Signin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const handleSubmit = (e) => {
+        console.log(name,email,password)
         e.preventDefault();
-        console.log(name, email, password); 
+        let newUser = {Pseudo : name, Email: email, Password: password };
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST","http://localhost:3000/users",true);
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.onload = function () {
+            console.log("Connected");
+        };
+        xhr.send(JSON.stringify(newUser));
     }
 
 

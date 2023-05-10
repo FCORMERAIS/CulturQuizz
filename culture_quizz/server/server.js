@@ -24,8 +24,9 @@ app.use(express.urlencoded({ extended: false }));
 
 // Définir les routes de votre application
 const questionRouter = require('./routes/question');
+const signinRouter = require('./routes/user')
 app.use('/questions', questionRouter);
-
+app.use('/users',signinRouter)
 // Démarrer le serveur
 app.listen(3000, () => {
   console.log(`Server started on port ${3000}`);
