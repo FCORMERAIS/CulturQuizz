@@ -6,8 +6,8 @@ import Home from "./Home";
 import Quizz from "./scenes/quizz/quizz";
 import Question from "./scenes/questionAdd/question";
 import NoPage from "scenes/LoginOrSignIn/NoPage";
-import Login from "./scenes/LoginOrSignIn/Login.js"
-import Signin from "./scenes/LoginOrSignIn/Signin.js"
+import Login from "./scenes/LoginOrSignIn/Login"
+import Signin from "./scenes/LoginOrSignIn/Signin"
 
 export default function App() {
   return (
