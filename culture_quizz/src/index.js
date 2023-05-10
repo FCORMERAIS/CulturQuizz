@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "scenes/Layout";
 import Home from "./Home";
+import Login from "./scenes/Login"
+import Signin from "./scenes/Signin"
 import Quizz from "./scenes/quizz/quizz";
 import Question from "./scenes/questionAdd/question";
 import NoPage from "scenes/NoPage";
