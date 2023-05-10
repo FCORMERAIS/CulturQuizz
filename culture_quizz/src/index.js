@@ -14,6 +14,10 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signin" element={<Signin />} />
+          {/* <Route path="blogs" element={<Blogs />} /> */}
+          {/* <Route path="contact" element={<Contact />} /> */}
           <Route path="Quizz" element={<Quizz/>} />
           <Route path="Question" element={<Question/>} />
           <Route path="*" element={<NoPage />} />
