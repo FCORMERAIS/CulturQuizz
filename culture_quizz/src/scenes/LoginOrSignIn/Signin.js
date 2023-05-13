@@ -3,21 +3,48 @@ import { useState } from 'react';
 import Cookies from 'js-cookie';
 
 const Signin = () => {
+
+    function testemail() {
+        if (email.value.length > 10) {
+            return true
+        }else {
+            return false
+        }
+    }
+
+    function testPassword() {
+        if (password.value.length > 10) {
+            return true
+        }else {
+            return false
+        }
+    }
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const handleSubmit = (e) => {
-        e.preventDefault();
-        let newUser = {Pseudo : name, Email: email, Password: password };
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST","http://localhost:3000/users",true);
-        xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.onload = function () {
-            console.log("Connected");
-        };
-        xhr.send(JSON.stringify(newUser));
-        Cookies.set('Pseudo', name, { expires: 7 });
-        window.location.href = "http://localhost:3001/"
+            e.preventDefault();
+            if (testemail) {
+                if (testPassword) {
+                    let newUser = {"pseudo" : name, "email": email, "password": password };
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST","http://localhost:3000/users",true);
+                    xhr.setRequestHeader('Content-Type', 'application/json')
+                    xhr.onload = function () {
+                        console.log("Connected");
+                    };
+                    xhr.send(JSON.stringify(newUser));
+                    Cookies.set('Pseudo', name, { expires: 7 });
+                    console.log(newUser)
+                    window.location.href = "http://localhost:3001/"
+                }else {
+                    alert("Password pas bon");
+                }
+        }else {
+            alert("Email pas bon");
+
+        }
     }
 
 

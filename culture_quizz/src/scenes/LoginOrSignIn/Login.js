@@ -24,7 +24,7 @@ const Login = () => {
     function testEmail(email,password) {
         for (let index = 0; index < AllAccount.length; index++) {
             const account = AllAccount[index];
-            if (account.Email === email) {
+            if (account.email === email) {
                 return testPassword(account,password)
             }
         }
@@ -33,7 +33,7 @@ const Login = () => {
         return false
     }
     function testPassword(account,password) {
-        if (password === account.Password) {
+        if (password === account.password) {
             return account
         }
         let incorrectPassword = document.querySelector('.incorrectPassword');
@@ -46,8 +46,8 @@ const Login = () => {
         let conn = testEmail(email,password)
         if (conn !== false) {
             let Connected = document.querySelector('.Connected');
-            Connected.innerHTML = "connecter en tant que "+ conn.Pseudo;
-            Cookies.set('Pseudo', conn.Pseudo, { expires: 7 });
+            Connected.innerHTML = "connecter en tant que "+ conn.pseudo;
+            Cookies.set('Pseudo', conn.pseudo, { expires: 7 });
             window.location.href = "http://localhost:3001/"
         }
     }
