@@ -1,12 +1,12 @@
 import '../../style/Signin.css'
 import { useState } from 'react';
+import Cookies from 'js-cookie';
 
 const Signin = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const handleSubmit = (e) => {
-        console.log(name,email,password)
         e.preventDefault();
         let newUser = {Pseudo : name, Email: email, Password: password };
         let xhr = new XMLHttpRequest();
@@ -16,6 +16,8 @@ const Signin = () => {
             console.log("Connected");
         };
         xhr.send(JSON.stringify(newUser));
+        Cookies.set('Pseudo', name, { expires: 7 });
+        window.location.href = "http://localhost:3001/"
     }
 
 

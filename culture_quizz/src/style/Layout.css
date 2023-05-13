@@ -15,8 +15,15 @@ ul{
     display: flex;
 }
 #right{
-    margin-left: 180%;
+    margin-left: 130%;
     display: flex;
+}
+#pseudo{
+    text-decoration: none;
+    color: #fff;
+    font-size: 25px;
+    position:absolute;
+    right:50%;
 }
 li{
     margin: 0 1rem;
