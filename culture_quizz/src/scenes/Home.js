@@ -1,12 +1,16 @@
 import "./App.css";
-import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import uuid from 'react-uuid';
+import { useNavigate } from "react-router-dom";
+import {socket} from "../io";
 
-const socket = io.connect("http://localhost:3002");
+//const socket = io.connect("http://localhost:3002");
 
 function App() {
   //Room State
+  const navigate = useNavigate();
+
+
   const [codeRoom, setCodeRoom ] = useState("");
   const [inRoom, setInRoom ] = useState(false);
   const [name, setName] = useState("");
@@ -41,9 +45,12 @@ function App() {
   return <UserGreeting />;
   }
   
-  const StartGame =() =>{
+  const StartGame = () => {
     console.log("partie lancé");
-    socket.emit("send_message",{status:"StartGame",room:codeRoom});
+    navigate("/quizz");
+    socket.emit("Start_Game",{status:"StartGame","codeRoom":codeRoom});
+
+
   }
 
   const joinRoom = () => {
@@ -55,6 +62,10 @@ function App() {
         console.log(messageReceived+ " : message");
         
         setPlayers(data.players);
+        console.log("data.status")
+        if(data.status === "StartGame"){
+          navigate("/quizz");
+        }
       });
       console.log(messageReceived)
       if (messageReceived === "no room"){
@@ -74,13 +85,27 @@ function App() {
   const sendMessage = () => {
     socket.emit("send_message", { message, codeRoom });
   };
-
+  socket.on("question", (data) => {
+    console.log("on vien de recevoir une question dans");
+    console.log(data);
+  });
   const listenServer = () => {
     socket.on("receive_message", (data) => {
       if (data.status === "new player"){
         setPlayers(data.players)
       }
+      if(data.status === "StartGame"){
+        navigate("/quizz");
+      }
     });
+    // socket.on("receive_message", (data) => {
+    //   if (data.status === "new player"){
+    //     setPlayers(data.players)
+    //   }
+    //   if(data.status === "StartGame"){
+    //     navigate("/quizz");
+    //   }
+    // });
   }
 
   const createRoom = () => {
