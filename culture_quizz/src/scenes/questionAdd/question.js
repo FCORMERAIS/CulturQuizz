@@ -1,4 +1,5 @@
 import React from "react";
+import './question.css'
 
 class App extends React.Component {
     constructor(props){
@@ -86,19 +87,19 @@ class App extends React.Component {
             <br/>
             <div>
                 <label htmlFor="reponse1">Reponse 1</label>
-                <input type="text" value={this.state.reponse1} onChange={this.handleChange} id="reponse1" name="reponse1"/>
+                <input class='inputResponse' type="text" value={this.state.reponse1} onChange={this.handleChange} id="reponse1" name="reponse1"/>
                 <input type="checkbox" checked = {this.state.bonneRep1} onChange={this.handleChange} id="bonneRep1" name="bonneRep1"/>
             </div>
             <br/>
             <div>
                 <label htmlFor="reponse2">Reponse 2</label>
-                <input type="text" value={this.state.reponse2} onChange={this.handleChange} id="reponse2" name="reponse2"/>
+                <input class='inputResponse' type="text" value={this.state.reponse2} onChange={this.handleChange} id="reponse2" name="reponse2"/>
                 <input type="checkbox" checked = {this.state.bonneRep2} onChange={this.handleChange} id="bonneRep2" name="bonneRep2"/>
             </div>
             <br/>
             <div>
                 <label htmlFor="reponse3">Reponse 3</label>
-                <input type="text" value={this.state.reponse3} onChange={this.handleChange} id="reponse3" name="reponse3"/>
+                <input class='inputResponse' type="text" value={this.state.reponse3} onChange={this.handleChange} id="reponse3" name="reponse3"/>
                 <input type="checkbox" checked = {this.state.bonneRep3} onChange={this.handleChange} id="bonneRep3" name="bonneRep3"/>
             </div>
             <br/>
@@ -116,7 +117,7 @@ class App extends React.Component {
         return (<div>
             <br/>
             <label htmlFor="reponse1">Reponse : </label>
-            <input type="text" value={this.state.reponse1} onChange={this.handleChange} id="reponse1" name="reponse1"/>
+            <input class='inputResponse' type="text" value={this.state.reponse1} onChange={this.handleChange} id="reponse1" name="reponse1"/>
             <br/>
         </div>);
         }
@@ -124,25 +125,25 @@ class App extends React.Component {
             <br/>
             <div>
                 <label htmlFor="reponse1">Reponse 1 :</label>
-                <input type="text" value={this.state.reponse1} onChange={this.handleChange} id="reponse1" name="reponse1"/>
+                <input class='inputResponse' type="text" value={this.state.reponse1} onChange={this.handleChange} id="reponse1" name="reponse1"/>
                 <input type="checkbox" checked = {this.state.bonneRep1} onChange={this.handleChange} id="bonneRep1" name="bonneRep1"/>
             </div>
             <br/>
             <div>
                 <label htmlFor="reponse2">Reponse 2 :</label>
-                <input type="text" value={this.state.reponse2} onChange={this.handleChange} id="reponse2" name="reponse2"/>
+                <input class='inputResponse' type="text" value={this.state.reponse2} onChange={this.handleChange} id="reponse2" name="reponse2"/>
                 <input type="checkbox" checked = {this.state.bonneRep2} onChange={this.handleChange} id="bonneRep2" name="bonneRep2"/>
             </div>
             <br/>
             <div>
                 <label htmlFor="reponse3">Reponse 3 :</label>
-                <input type="text" value={this.state.reponse3} onChange={this.handleChange} id="reponse3" name="reponse3"/>
+                <input class='inputResponse' type="text" value={this.state.reponse3} onChange={this.handleChange} id="reponse3" name="reponse3"/>
                 <input type="checkbox" checked = {this.state.bonneRep3} onChange={this.handleChange} id="bonneRep3" name="bonneRep3"/>
             </div>
             <br/>
             <div>
                 <label htmlFor="reponse4">Reponse 4 :</label>
-                <input type="text" value={this.state.reponse4} onChange={this.handleChange} id="reponse4" name="reponse4"/>
+                <input class='inputResponse' type="text" value={this.state.reponse4} onChange={this.handleChange} id="reponse4" name="reponse4"/>
                 <input type="checkbox" checked = {this.state.bonneRep4} onChange={this.handleChange} id="bonneRep4" name="bonneRep4"/>
             </div>
             <br/>
@@ -150,14 +151,15 @@ class App extends React.Component {
     }
 
     render() {
-        return (<div>
-            <div>
-                <label htmlFor="question">Question</label>
-                <input type="text" value={this.state.question} onChange={this.handleChange} id="question" name="question"/>
+        return (
+        <div id="question">
+            <div id="addQuestion">
+                <label id='labelAdd' htmlFor="question">Question</label>
+                <input type="text" value={this.state.question} placeholder="Ajoutez votre question..." onChange={this.handleChange} id="question" name="question"/>
             </div>
             <form name="QuestionAdd" mathod="post" className="question_form" data-netlify="true">
-            <div>
-            <label htmlFor="type">Type : </label>
+            <div id="addResponse">
+                <label htmlFor="type">Type de la question : </label>
                 <select onChange={this.handleChange}>
                     <option value="Question4choices">Question4choices</option>
                     <option value="Question3choices">Question3choices</option>
@@ -167,7 +169,7 @@ class App extends React.Component {
             </div>
                 {this.DisplayAnswerByType()}
 
-                <button type="submit" onClick={this.AddQuestion}> Envoyez </button>
+                <button id="btnAdd" type="submit" onClick={this.AddQuestion}> Envoyez </button>
             </form>
         </div>
         )

@@ -97,14 +97,14 @@ useEffect(() => {
   }
 
   return (
-    <div className="App">
+    <div class="App">
       <h1>Question Culture Général</h1>
 
-      <h2>Score: {score}</h2>
+      <h2 id='score'>Score: {score}</h2>
       {isLoading ? (
         <p>Loading...</p>
       ):(showResults ? (
-        <div className="final-results">
+        <div class="final-results">
           <h1>Final Results</h1>
           <h2>
             {score} out of {questions.length} correct - (
@@ -113,7 +113,7 @@ useEffect(() => {
           <button onClick={() => restartGame()}>Restart game</button>
         </div>
       ) : (
-        <div className="question-card">
+        <div class="question-card">
           <h2>
             Question: {currentQuestion + 1} out of {questions.length}
           </h2>
