@@ -6,14 +6,12 @@ import Home from "./scenes/Home";
 import Quizz from "./scenes/quizz/quizz";
 import Question from "./scenes/questionAdd/question";
 import NoPage from "scenes/NoPage";
-// import Context from "./gameContext";
 
 
 export default function App() {
   
   return (
     <BrowserRouter>
-    {/* <Context.Provider value={null}> */}
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -22,7 +20,6 @@ export default function App() {
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>
-      {/* </Context.Provider> */}
     </BrowserRouter>
   );
 }

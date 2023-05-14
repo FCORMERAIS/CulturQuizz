@@ -4,8 +4,6 @@ import uuid from 'react-uuid';
 import { useNavigate } from "react-router-dom";
 import {socket} from "../io";
 
-//const socket = io.connect("http://localhost:3002");
-
 function App() {
   //Room State
   const navigate = useNavigate();
@@ -98,14 +96,6 @@ function App() {
         navigate("/quizz");
       }
     });
-    // socket.on("receive_message", (data) => {
-    //   if (data.status === "new player"){
-    //     setPlayers(data.players)
-    //   }
-    //   if(data.status === "StartGame"){
-    //     navigate("/quizz");
-    //   }
-    // });
   }
 
   const createRoom = () => {

@@ -22,10 +22,7 @@ const fetchData = async () => {
   try {
     const response = await fetch('http://localhost:3000/questions');
     var questions = await response.json();
-    // setQuestions(data);
-    // setIsLoading(false);
-    //console.log(data)
-
+    
   } catch (error) {
     console.error(error);
   }
@@ -66,46 +63,55 @@ const fetchData = async () => {
       console.log("create room with code :" + data.codeRoom);
     });
     socket.on("Start_Game",(data)=>{
-      //socket.to(data).emit("Start_Game",{})
       socket.to(data.codeRoom).emit("receive_message", data);
 
       var currentQuestion = Math.floor(Math.random() * questions.length);
       data["question"] = questions[currentQuestion];
       questionPass.push(currentQuestion)
+      data["nbQuestion"] = questions.length;
+      data["indexQ"] = questionPass.length-1;
+
       console.log(data);
       io.to(data.codeRoom).emit("question", data);
 
     })
     nbAnswer=0;
     socket.on("answer",(data)=>{
-      console.log(data);
       nbAnswer+=1
       console.log("nouvel rep");
-      //console.log(playersRoom.length);
       if (nbAnswer == playersRoom.length){
         nbAnswer=0;
-        if (questionPass.length === questions.length-1) {
+        if (questionPass.length === questions.length) {
           questionPass = []
+          data["nbQuestion"] = questions.length;
+          data["indexQ"] = questionPass.length-1;
+          
+          io.to(data.codeRoom).emit("ending", data);
+
+        }else{
+          let aleatory = -1
+          while (aleatory === -1 || questionPass.indexOf(aleatory) !== -1) {
+            aleatory = Math.floor(Math.random() * questions.length)
+          }
+          questionPass.push(aleatory)
+          data["question"] = questions[aleatory];
+          data["nbQuestion"] = questions.length;
+          data["indexQ"] = questionPass.length-1;
+          io.to(data.codeRoom).emit("question", data);
         }
-        let aleatory = -1
-        while (aleatory === -1 || questionPass.indexOf(aleatory) !== -1) {
-          aleatory = Math.floor(Math.random() * questions.length)
-        }
-        questionPass.push(aleatory)
-        data["question"] = questions[aleatory];
-        console.log(questionPass);
-        io.to(data.codeRoom).emit("question", data);
+        
     }})
+    socket.on("Restart", (data) => {
+      var currentQuestion = Math.floor(Math.random() * questions.length);
+      data["question"] = questions[currentQuestion];
+      questionPass=[];
+      questionPass.push(currentQuestion)
+      data["nbQuestion"] = questions.length;
+      data["indexQ"] = questionPass.length-1;
 
-    // socket.on("waitingAnswer",(data)=>{
-    //   //socket.to(data).emit("Start_Game",{})
-    //   socket.to(data.room).emit("receive_message", data);
-    //     var currentQuestion = Math.floor(Math.random() * questions.length);
-    //     data["question"] = questions[currentQuestion];
-    //     console.log(data);
-    //     socket.to(data.room).emit("receive_message", data);
-
-    // })
+      console.log(data);
+      io.to(data.codeRoom).emit("question", data);
+    });
   });
   
   server.listen(3002, () => {
