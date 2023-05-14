@@ -2,76 +2,73 @@
   text-align: center;
 }
 
-.question-card {
-  /* Center the div  */
-  margin: 0 auto;
-
-  /* Dimensions  */
-  width: 80%; /* Can be in percentage also. */
-  height: auto;
-
-  /* Visual  */
-  background-color: gray;
-  padding: 16px;
-  border-radius: 16px;
-  color: white;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
-    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
-}
-
-
-.question-text {
-  color: darkblue;
+.score{
   font-size: 24px;
+  font-weight: bold;
+  color: black;
 }
-  
-/* Final Results  */
+
+.question-card {
+  margin: 10%;
+  width: 80%; 
+  height: auto;
+  background-color: #70bdf2;
+  padding: 25px;
+  color: white;
+  border-radius: 20px;
+}
+
+.question-card h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+}
+li {
+  list-style-type: none;
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+}
+li:hover {
+  color: White;
+  cursor: pointer;
+}
+
+
 
 .final-results {
-  /* Center the div  */
-  margin: 0 auto;
-
-  /* Dimensions  */
-  width: 50%; /* Can be in percentage also. */
-  height: auto;
-  margin-top: 64px;
-
-  /* Visual  */
-  background-color: gray;
-  padding: 16px;
-  border-radius: 16px;
-  color: white;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
-    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  color: black;
 }
 
 button {
-  background-color: red; /* Green */
-  border: none;
-  color: white;
-  padding: 16px 24px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
+  font-size: 24px;
   font-weight: bold;
-
-  border-radius: 24px;
+  color: black;
+  background-color: white;
+  border-radius: 20px;
+  border: none;
+  padding: 16px;
+  margin: 16px;
+  cursor: pointer;
 }
+button:hover{
+  color: #70bdf2;
+}
+
+
+/* input{
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+  background-color: white;
+  border-radius: 20px;
+  border: none;
+  padding: 16px;
+  margin: 16px;
+  cursor: pointer;
+} */
 .button {
-  --b: 3px;   /* border thickness */
-  --s: .15em; /* size of the corner */
-  --c: #BD5532;
   
-  padding: calc(.05em + var(--s)) calc(.3em + var(--s));
-  color: var(--c);
-  --_p: var(--s);
-  background:
-    conic-gradient(from 90deg at var(--b) var(--b),#0000 90deg,var(--c) 0)
-    var(--_p) var(--_p)/calc(100% - var(--b) - 2*var(--_p)) calc(100% - var(--b) - 2*var(--_p));
-  transition: .3s linear, color 0s, background-color 0s;
-  outline: var(--b) solid #0000;
-  outline-offset: .2em;
 }
 .button:hover,
 .button:focus-visible{
@@ -81,7 +78,7 @@ button {
 }
 .button:active {
   background: var(--c);
-  color: #fff;
+  color: blue;
 }
 
 .button {

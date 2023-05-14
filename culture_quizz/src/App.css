@@ -18,8 +18,7 @@ body{
 
 }
 
-
-.App-link {
+.App-link { 
   color: #61dafb;
 }
 
@@ -31,32 +30,3 @@ body{
     transform: rotate(360deg);
   }
 }
-
-ol {
-  margin: 0;
-  gap: 1rem;
-  padding: 0;
-  display: flex;
-  list-style: none;
-  place-items: center;
-  flex-direction: column;
-  counter-reset: my-counter;
-}
-li {
-  width: 40rem;
-  text-align: center;
-  color: #fff;
-  border-radius: 3rem;
-  background: linear-gradient(
-    to right bottom,
-    rgb(255, 184, 142, 0.44),
-    rgba(255, 255, 255, 0.5)
-  );
-  counter-increment: my-counter;
-  padding: 1.1rem 1.5rem 1.1rem 1.5rem;
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  
-}
-
-
-
