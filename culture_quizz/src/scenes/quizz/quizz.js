@@ -1,4 +1,5 @@
 import React, { useState,useEffect  } from "react";
+import {socket} from "../../io";
 import "./quizz.css";
 
 function App() {
@@ -8,7 +9,16 @@ function App() {
   const [score, setScore] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [questionPass,setQuestionPass] = useState([]);
+  const [codeRoom, setCodeRoom ] = useState("");
+  const [nbQuestion, setNbQuestion ] = useState(0);
+
+  socket.on("question", (data) => {
+    setQuestions(data["question"]);
+    setNbQuestion(data.nbQuestion);
+    console.log("nb question : " + nbQuestion);
+    setCurrentQuestion(data.indexQ);
+    setIsLoading(false);
+  });
   /* A possible answer was clicked */
   const optionClicked = (isCorrect) => {
     console.log(currentQuestion)
@@ -16,44 +26,53 @@ function App() {
     if (isCorrect) {
       setScore(score + 1);
     }
-    let tempo = questionPass
-    tempo.push(currentQuestion)
-    setQuestionPass(tempo)
-    if (questionPass.length === questions.length-1) {
-      setQuestionPass([])
-    }
-    let aleatory = -1
-    while (aleatory === -1 || questionPass.indexOf(aleatory) !== -1) {
-      aleatory = Math.floor(Math.random() * questions.length)
-    }
-    setCurrentQuestion(aleatory);
+    socket.emit("answer", {"codeRoom": codeRoom, "score":score});
+    setIsLoading(true);
+    socket.on("question" , (data)=>{
+      setQuestions(data["question"]);
+      setIsLoading(false);
+      setNbQuestion(data.nbQuestion);
+      setCurrentQuestion(data.indexQ);
+
+    console.log("nb question : " + nbQuestion);
+
+
+      console.log("on vien de recevoir une question");
+    })
+    socket.on("ending", (data) => {
+      setQuestions(data["question"]);
+      setIsLoading(false);
+      setCurrentQuestion(data.indexQ);
+
+      setShowResults(true);
+    });
   };
   /* Resets the game back to default */
   const restartGame = () => {
     setScore(0);
     setCurrentQuestion(Math.random() * questions.length);
     setShowResults(false);
+    setIsLoading(true);
+    socket.emit("Restart",{codeRoom: codeRoom});
   };
 
 useEffect(() => {
   // Fetch data from URL using promise
-  const fetchData = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/questions');
-      const data = await response.json();
-      setQuestions(data);
-      setIsLoading(false);
-      setCurrentQuestion(Math.random() * questions.length)
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  fetchData();
-}, []);
+  console.log("arrivé sur la page");
+  socket.on("question", (data) => {
+    setCodeRoom(data.codeRoom);
+    setNbQuestion(data.nbQuestion);
+    console.log("nb question : " + nbQuestion);
+    setQuestions(data["question"]);
+    setIsLoading(false);
+    setCurrentQuestion(data.indexQ);
 
+  });
+  
+  }, []);
   function DisplayObjectsByType({ data }) {
     if (data.type === "Question4choices") {
-      return (<div key={data.id}>Type 1 object: {data.text}
+      return (<div key={data.id}>{data["question"]}
             <ul>
             {data.options.map((option) => {
               return (
@@ -69,7 +88,7 @@ useEffect(() => {
           </div>);
     }
     if (data.type === "Question3choices") {
-      return (<div key={data.id}>Type 2 object: {data.text}<ul>
+      return (<div key={data.id}>{data.question}<ul>
       {data.options.map((option) => {
         return (
           <li
@@ -84,15 +103,15 @@ useEffect(() => {
     </div>);
     }
     if (data.type === "TrueFalse") {
-      return(<div><button onClick={() => optionClicked(data.options[0].isCorrect)} class="button">Vrai !</button>
-      <button onClick={() => optionClicked(data.options [1].isCorrect)} class="button">Faux !</button>
+      return(<div><div key={data.id}>{data.question}</div><button onClick={() => optionClicked(data.options[0].isCorrect)} class="button">Vrai !</button>
+      <button onClick={() => optionClicked(data.options[1].isCorrect)} class="button">Faux !</button>
       </div>);
     }
     if (data.type === "Text") {
-      return (<div class="form__group field">
+      return (<div key={data.id}>{data.question}<div class="form__group field">
       <input type="input" class="form__field" placeholder="Name" name="name" id='name' required />
       <input type="submit" onClick={() => optionClicked(true)}/>
-    </div>);
+    </div></div>);
     }
   }
 
@@ -107,18 +126,18 @@ useEffect(() => {
         <div className="final-results">
           <h1>Final Results</h1>
           <h2>
-            {score} out of {questions.length} correct - (
-            {(score / questions.length) * 100}%)
+            {score} out of {nbQuestion} correct - (
+            {(score / nbQuestion) * 100}%)
           </h2>
           <button onClick={() => restartGame()}>Restart game</button>
         </div>
       ) : (
         <div className="question-card">
           <h2>
-            Question: {currentQuestion + 1} out of {questions.length}
+            Question: {currentQuestion + 1} out of {nbQuestion}
           </h2>
           <div>
-            <DisplayObjectsByType data={questions[currentQuestion]} />
+            <DisplayObjectsByType data={questions} />
           </div>
           {/* List of possible answers  */}
         </div>

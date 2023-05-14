@@ -1,5 +1,10 @@
 {
+<<<<<<< HEAD
   "devDependencies": {
     "react-app-rewired": "^2.2.1"
+=======
+  "dependencies": {
+    "socket.io": "^4.6.1"
+>>>>>>> aa18bd79c7ae5dedf3b573436f3280e594649dd5
   }
 }
