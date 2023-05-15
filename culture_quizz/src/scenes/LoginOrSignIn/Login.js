@@ -1,16 +1,11 @@
 import '../../style/Login.css'
 import { useState,useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { redirect } from 'react-router-dom';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [AllAccount, setAllAccount] = useState([]);
-    const [credentials , setCredentials] = useState({
-        "email" : "",
-        "password" : ""
-    });
 
     useEffect(() => {
         // Fetch data from URL using promise
