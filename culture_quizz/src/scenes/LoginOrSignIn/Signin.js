@@ -1,8 +1,8 @@
+// Page pour se créer un compte en donnant son nom, son mail et un mot de passe.
+
 import '../../style/Signin.css'
 import { useState } from 'react';
 import Cookies from 'js-cookie';
-
-
 
 const Signin = () => {
     const [name, setName] = useState('');
@@ -30,11 +30,8 @@ const Signin = () => {
     }
 
     function testPassword() {
-        if (password.length > 10) {
-            return true
-        } else {
-            return false
-        }
+        const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
+        return regex.test(password);
     }
 
     const handleSubmit = (e) => {

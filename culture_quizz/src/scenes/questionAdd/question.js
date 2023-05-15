@@ -1,3 +1,5 @@
+// Page qui nous permet de créer des questions et d'ajouter la réponse.
+
 import React from "react";
 import './question.css'
 
@@ -19,8 +21,6 @@ class App extends React.Component {
         this.AddQuestion = this.AddQuestion.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
-
-
 
     handleChange (e) {
         const name = e.target.name

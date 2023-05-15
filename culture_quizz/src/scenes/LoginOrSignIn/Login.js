@@ -1,3 +1,5 @@
+// Page pour se connecter en ayant créer un compte sur la page signin.
+
 import '../../style/Login.css'
 import { useState,useEffect } from 'react';
 import Cookies from 'js-cookie';
@@ -71,6 +73,5 @@ const Login = () => {
         </div>
     );    
 };
-
 
 export default Login;

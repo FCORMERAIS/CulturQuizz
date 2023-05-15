@@ -1,3 +1,5 @@
+// Page qui permet de répondre aux questions, voir son score et jouer aves les autres joueurs dans la partie.
+
 import React, { useState,useEffect  } from "react";
 import "./quizz.css";
 

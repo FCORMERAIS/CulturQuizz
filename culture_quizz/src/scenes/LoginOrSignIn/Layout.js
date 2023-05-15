@@ -1,8 +1,8 @@
+// Page qui gère la barre de navigation.
+
 import '../../style/Layout.css'
 import { Outlet, Link } from "react-router-dom";
-import { useState } from 'react';
 import Cookies from 'js-cookie';
-
 
 const Layout = () => {
   
@@ -11,13 +11,11 @@ const Layout = () => {
     cookies.Pseudo = "Not Connected"
   }
 
-
   const handleRemoveCookie = () => {
     Cookies.remove("Pseudo");
     window.location.href = "http://localhost:3001/"
 
   };
-
 
   return (
     <>
