@@ -1,4 +1,4 @@
-import "./App.css";
+import "./style/App.css";
 import { useEffect, useState } from "react";
 import uuid from 'react-uuid';
 import { useNavigate } from "react-router-dom";

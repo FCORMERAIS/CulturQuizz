@@ -1,4 +1,4 @@
-import '../../style/Layout.css'
+import './style/Layout.css'
 import { Outlet, Link } from "react-router-dom";
 import { useState } from 'react';
 import Cookies from 'js-cookie';
