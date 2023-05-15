@@ -7,6 +7,10 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [AllAccount, setAllAccount] = useState([]);
+    const [credentials , setCredentials] = useState({
+        "email" : "",
+        "password" : ""
+    });
 
     useEffect(() => {
         // Fetch data from URL using promise
