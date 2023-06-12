@@ -1,16 +1,24 @@
 import React, { useState,useEffect  } from "react";
 import {socket} from "../../io";
 import "./quizz.css";
+import Cookies from 'js-cookie';
 
 function App() {
   // Properties
+  let cookies = Cookies.get()
+  if (cookies.Pseudo === undefined) {
+    cookies.Pseudo = "Not Connected"
+  }
   const [showResults, setShowResults] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
+  const [scores, setScores] = useState(0);
+
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [codeRoom, setCodeRoom ] = useState("");
   const [nbQuestion, setNbQuestion ] = useState(0);
+  const [players, setPlayers ] = useState([]);
 
   socket.on("question", (data) => {
     setQuestions(data["question"]);
@@ -26,7 +34,7 @@ function App() {
     if (isCorrect) {
       setScore(score + 1);
     }
-    socket.emit("answer", {"codeRoom": codeRoom, "score":score});
+    socket.emit("answer", {"codeRoom": codeRoom, "score":score,"name":cookies.Pseudo});
     setIsLoading(true);
     socket.on("question" , (data)=>{
       setQuestions(data["question"]);
@@ -43,14 +51,15 @@ function App() {
       setQuestions(data["question"]);
       setIsLoading(false);
       setCurrentQuestion(data.indexQ);
-
+      setPlayers(data.players);
+      setScores(data.scores);
       setShowResults(true);
     });
   };
   /* Resets the game back to default */
   const restartGame = () => {
     setScore(0);
-    setCurrentQuestion(Math.random() * questions.length);
+    setCurrentQuestion(0);
     setShowResults(false);
     setIsLoading(true);
     socket.emit("Restart",{codeRoom: codeRoom});
@@ -118,7 +127,6 @@ useEffect(() => {
   return (
     <div class="App">
       <h1>Question Culture Général</h1>
-
       <h2 id='score'>Score: {score}</h2>
       {isLoading ? (
         <p>Loading...</p>
@@ -129,6 +137,11 @@ useEffect(() => {
             {score} out of {nbQuestion} correct - (
             {(score / nbQuestion) * 100}%)
           </h2>
+          <ul>
+            {players?.map((user,index) => (
+              <li className="user">{user} : {scores[index]}</li>
+            ))}
+          </ul>
           <button onClick={() => restartGame()}>Restart game</button>
         </div>
       ) : (

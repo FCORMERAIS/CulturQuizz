@@ -12,6 +12,7 @@ const Signin = () => {
     function verifierEmail() {
         var emailInput = document.getElementById('email');
         var erreurEmail = document.getElementById('erreur-email');
+        console.log("ON EST LA");
         if (emailInput.value.indexOf('@') === -1) {
             erreurEmail.innerHTML = 'L\'adresse email doit contenir un caractère @.';
             emailInput.classList.add('erreur');
@@ -30,11 +31,9 @@ const Signin = () => {
     }
 
     function testPassword() {
-        if (password.length > 10) {
-            return true
-        } else {
-            return false
-        }
+        // const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\w\d\s:])([^\s]){8,}$/;
+        // return regex.test(password);
+        return true;
     }
 
     const handleSubmit = (e) => {

@@ -52,8 +52,6 @@ function App() {
     console.log("partie lancé");
     navigate("/quizz");
     socket.emit("Start_Game",{status:"StartGame","codeRoom":codeRoom});
-
-
   }
 
   const joinRoom = () => {
